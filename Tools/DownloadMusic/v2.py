@@ -1,9 +1,11 @@
 """
-A tool to download music with mxget and tkinter
+A tool to download music with mxget and tkinter.
 
 # Date: 2021/05/17
 # Author: zhangsh
 # Version: v1.1
+# Python 3.8
+# mxget: 1.1.2
 
 # 1. 不要下载完成插入信息，在显示歌曲列表的下方新建输出窗口， 输出每条下载完成信息
 

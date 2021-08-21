@@ -1,12 +1,12 @@
 """
-A tool to download music with mxget and PySide2
+A tool to download music with mxget and PySide2.
 
 # Date: 2021/05/19
 # Author: zhangsh
 # Version: v2.0
 # Python 3.8
 # PySide2: 5.15.2
-mxget: 1.1.2
+# mxget: 1.1.2
 
 """
 

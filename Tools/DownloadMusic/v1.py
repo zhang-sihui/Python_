@@ -1,8 +1,11 @@
 """
-A tool to download music with mxget and tkinter
+A tool to download music with mxget and tkinter.
 
 # Author: zhangsh
 # Version: v1.1
+# Python 3.8
+# mxget: 1.1.2
+
 """
 
 import os
