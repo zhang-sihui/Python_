@@ -1,32 +1,32 @@
 # @Author: zhang
 # @time: 2019/7/9 19:10
+# @update: 2023/03/11
 
 """
 Function:
     基于tkinter模块
-	鲁迅名言查询系统V0.1.0
-	Python -V  3.7.3
+    鲁迅名言查询系统V0.1.0
+    Python -V  3.9.1
 """
+import os
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
-from fuzzywuzzy import fuzz
+from rapidfuzz import fuzz
 
-'''简单的Window'''
+BASEPATH = os.path.dirname(__file__)
+
+
 class Window(object):
+    '''简单的Window'''
 
     def __init__(self):
         root = tk.Tk()
         root.minsize(580, 320)  # 窗口大小
         root.resizable(width=False, height=False)   # False窗口大小不可变
-        """
-            # 窗口默认图标为羽毛，这里想要设置自定义图标
-            # 通过以下代码,并不能成功，搜索一番后，未能解决
-            # 如果你有解决方法，请告知，谢谢
-            
-        # root.iconbitmap('data\icon.ico')   # 无法显示图片
-        """
+        """ iconbitmap 可以设置图标, 需要注意的是不能将 .png .jpg 文件直接修改文件名后缀为 .ico, 需要一些转换工具转换文件 """
+        root.iconbitmap(BASEPATH + '\\data\\icon.ico')
         root.title('鲁迅：都是我说的！！')     # 窗口标题
 
         label1 = Label(text='句子：')    # 标签
@@ -37,23 +37,25 @@ class Window(object):
         button.place(x=390, y=10, width=60, height=25)
 
         self.filemenu = tk.StringVar()   # 下拉列表
-        self.file_menu = ttk.Combobox(root,width=12, textvariable=self.filemenu)
+        self.file_menu = ttk.Combobox(
+            root, width=12, textvariable=self.filemenu)
         # 列表内容
-        self.file_menu['values']=('匹配度: 100%','匹配度: 90%',
-                              '匹配度: 80%','匹配度: 70%')
-        self.file_menu.place(x=460,y=10,width=100,height=25)
+        self.file_menu['values'] = ('匹配度: 100%', '匹配度: 90%',
+                                    '匹配度: 80%', '匹配度: 70%')
+        self.file_menu.place(x=460, y=10, width=100, height=25)
         self.file_menu.current(0)   # 当前显示 100%
 
         label2 = Label(text='查询结果:')
         label2.place(x=10, y=100, width=80, height=20)
         self.text = Text(root)  # 多行文本显示
-        self.text.place(x=80, y=50, width=480,height=240)
+        self.text.place(x=80, y=50, width=480, height=240)
 
-        self.paragraphs = self.loadData('data/book.txt')   # 数据文件
+        self.paragraphs = self.loadData(BASEPATH + '\\data\\book.txt')   # 数据文件
         root.mainloop()   # 主循环
 
-    '''查询'''
+
     def inquiry(self):
+        '''查询'''
         sentence = self.line_text.get()   # 获取输入的内容
         matched = []
         score_thresh = self.getScoreThresh()
@@ -72,10 +74,11 @@ class Window(object):
             if not infos:
                 infos.append('未匹配到任何相似度大于或等于%d的句子,请修改匹配度.\n' % score_thresh)
             # 查找到的内容插入文本，并显示
-            self.text.insert('insert','\n\n\n'.join(infos)[:-1])
+            self.text.insert('insert', '\n\n\n'.join(infos)[:-1])
 
-    '''根据下拉列表获取匹配度'''
+
     def getScoreThresh(self):
+        '''根据下拉列表获取匹配度'''
         if self.file_menu.current() == 0:
             return 100
         elif self.file_menu.current() == 1:
@@ -86,8 +89,8 @@ class Window(object):
             return 70
 
 
-    '''数据导入'''
     def loadData(self, data_path):
+        '''数据导入'''
         paragraphs = []
         with open(data_path, 'r', encoding='utf-8') as f:
             for line in f.readlines():
@@ -99,4 +102,3 @@ class Window(object):
 '''运行'''
 if __name__ == '__main__':
     Window()
-
